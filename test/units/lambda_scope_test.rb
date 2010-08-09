@@ -39,4 +39,25 @@ class LambdaScopeTest < Test::Unit::TestCase
       end
     end
   end
+
+  context 'customers' do
+    setup do
+      seed_models
+    end
+
+    context 'with a chained scope and a deep merging context' do
+      setup do
+        @customers = Customer.by_name('Al').by_name('Ba')
+      end
+
+      should 'should have results' do
+        assert_equal 1, @customers.count
+      end
+
+      should 'set a string context' do
+        assert_equal Hash, @customers.context.class
+        assert_equal ({:name => ['Al', 'Ba']}), @customers.context[:filter][:customer]
+      end
+    end
+  end
 end

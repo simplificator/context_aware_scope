@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{context_aware_scope}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Simplificator", "Fabio Kuhn"]
@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
     ".gitignore",
      "README.rdoc",
      "Rakefile",
+     "VERSION",
+     "context_aware_scope.gemspec",
      "lib/context_aware_scope.rb",
      "test/database.yml",
      "test/models.rb",

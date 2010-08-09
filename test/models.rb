@@ -10,6 +10,7 @@ end
 class Customer < ActiveRecord::Base
   has_many    :orders
   belongs_to  :city
+  named_scope :by_name, lambda{|name| {:conditions => ['name like ?', "%#{name}%"], :context => {:filter => {:customer => {:name => name}}}}}
 end
 
 class City < ActiveRecord::Base
