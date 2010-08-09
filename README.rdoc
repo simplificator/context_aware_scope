@@ -1,0 +1,41 @@
+h1. Context Aware Scope
+
+An extension to ActiveRecord's named scope
+
+h2. Usage
+
+1. Add a context to a named_scope:
+
+<pre>
+  named_scope :expensive, :conditions => ['price > ?', 100], :context => 'an expensive'
+  named_scope :new, :conditions => ['created_at > ?', 1.week.ago], :context => 'a new'
+</pre>
+
+
+2. Execute the scopes:
+
+<pre>
+  @products = Product.new.expensive
+</pre>
+
+3. And get the context:
+
+<pre>
+  @products.context
+  # => ['brand new', 'luxurious']
+  "You are looking at #{@products.context.to_sentence} products"
+  # => "You are looking at brand new and luxurious products"
+</pre>
+
+h2. Installation
+
+Install the ContextAwareScope gem:
+
+<pre>
+  gem install context_aware_scope
+</pre>
+
+
+h2. Compatibility
+Only tested with ActiveRecord 2.3.8.
+Rails 3 support planned.
