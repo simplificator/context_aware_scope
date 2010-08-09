@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "context aware scope"
+    gem.name = "context_aware_scope"
     gem.summary = %Q{Add context to named_scopes in ActiveRecord}
     gem.description = %Q{Allows to add a context to a named_scope that will be passed through the whole scope chain}
     gem.email = "info@simplificator.com"
