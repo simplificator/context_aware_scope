@@ -1,5 +1,10 @@
 class Order < ActiveRecord::Base
   belongs_to :customer
+  named_scope :by_price, lambda{|price| {:conditions => ['price > ?', price], :context => {:price => "> #{price}"}}}
+  named_scope :by_product, lambda{|name| {:conditions => {:product_name => name}, :context => {:product => name}}}
+  named_scope :expensive, :conditions => ['price > ?', 10], :context => {:price => '> 10'}
+  named_scope :with_camel, :conditions => {:product_name => 'camel'}, :context => {:product => 'camel'}
+
 end
 
 class Customer < ActiveRecord::Base
@@ -9,6 +14,11 @@ end
 
 class City < ActiveRecord::Base
   has_many    :customers
+end
+
+class Product < ActiveRecord::Base
+  named_scope :luxurious, :conditions => ['price > ?', 100], :context => {:price => 'luxurious'}
+  named_scope :recent, :conditions => ['created_at > ?', 1.week.ago], :context => {:created_at => 'brand new'}
 end
 
 def setup_database(name)
@@ -34,6 +44,12 @@ def setup_database(name)
     create_table :cities do |t|
       t.string  :name
     end
+
+    create_table :products do |t|
+      t.string    :name
+      t.datetime  :created_at
+      t.integer   :price
+    end
   end
 end
 
@@ -46,10 +62,11 @@ def seed_models
   order1 = Order.create(:customer => customer1, :product_name => 'magic carpet', :price => 500, :purchased_at => '2010-07-22')
   order2 = Order.create(:customer => customer1, :product_name => 'old lamp', :price => 5, :purchased_at => '2010-07-22')
   order3 = Order.create(:customer => customer2, :product_name => 'camel', :price => 1200, :purchased_at => '2010-07-24')
+  product = Product.create(:name => 'Bracelet', :price => 324, :created_at => 1.day.ago)
 end
 
 def cleanup_database
-  City.delete_all
-  Customer.delete_all
-  Order.delete_all
+  [City, Customer, Order, Product].each do |model_class|
+    model_class.delete_all
+  end
 end

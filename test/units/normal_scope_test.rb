@@ -1,12 +1,7 @@
 require 'test_helper'
 
-class Order
-  named_scope :expensive, :conditions => ['price > ?', 10], :context => 'price > 10'
-  named_scope :with_camel, :conditions => {:product_name => 'camel'}, :context => "product_name = camel"
-end
-
 class NormalScopeTest < Test::Unit::TestCase
-  context 'orders' do #context[:filter] => {:price => '> 10', :product => 'camel'} context[:order]
+  context 'orders' do
     setup do
       seed_models
     end
@@ -22,8 +17,8 @@ class NormalScopeTest < Test::Unit::TestCase
 
       should 'have context on list' do
         assert_equal ActiveRecord::NamedScope::Scope, @orders.class
-        assert_equal Array, @orders.context.class
-        assert_equal ['price > 10'], @orders.context
+        assert_equal Hash, @orders.context.class
+        assert_equal ({:price => '> 10'}), @orders.context
       end
     end
 
@@ -37,8 +32,11 @@ class NormalScopeTest < Test::Unit::TestCase
       end
 
       should 'set a string context' do
-        assert_equal Array, @orders.context.class
-        assert_equal ['product_name = camel', 'price > 10'], @orders.context
+        assert_equal Hash, @orders.context.class
+        assert_equal 2, @orders.context.size
+        assert_equal '> 10', @orders.context[:price]
+        assert_equal 'camel', @orders.context[:product]
+
       end
     end
   end

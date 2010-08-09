@@ -13,9 +13,9 @@ module ContextAwareScope
          # get current context from scope chain
          def context
            if @proxy_scope.class == ActiveRecord::NamedScope::Scope
-             @proxy_scope.context << @context
+             @proxy_scope.context.deep_merge(@context)
            else
-             [@context]
+             @context
            end
          end
 

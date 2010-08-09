@@ -1,10 +1,5 @@
 require 'test_helper'
 
-class Order
-  named_scope :by_price, lambda{|price| {:conditions => ['price > ?', 10], :context => "price > #{price}"}}
-  named_scope :by_product, lambda{|name| {:conditions => {:product_name => name}, :context => "product_name = #{name}"}}
-end
-
 class LambdaScopeTest < Test::Unit::TestCase
   context 'orders' do
     setup do
@@ -22,8 +17,8 @@ class LambdaScopeTest < Test::Unit::TestCase
 
       should 'have context on list' do
         assert_equal ActiveRecord::NamedScope::Scope, @orders.class
-        assert_equal Array, @orders.context.class
-        assert_equal ['price > 10'], @orders.context
+        assert_equal Hash, @orders.context.class
+        assert_equal ({:price => '> 10'}), @orders.context
       end
     end
 
@@ -37,8 +32,10 @@ class LambdaScopeTest < Test::Unit::TestCase
       end
 
       should 'set a string context' do
-        assert_equal Array, @orders.context.class
-        assert_equal ['product_name = camel', 'price > 10'], @orders.context
+        assert_equal Hash, @orders.context.class
+        assert_equal 2, @orders.context.size
+        assert_equal '> 10', @orders.context[:price]
+        assert_equal 'camel', @orders.context[:product]
       end
     end
   end
