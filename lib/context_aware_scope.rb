@@ -4,7 +4,7 @@ module ContextAwareScope
       extend ClassMethods
       class_eval do
         def initialize_with_context(proxy_scope, options, &block)
-          @context = options[:context]
+          @context = options ? options[:context] || {} : {}
           initialize_without_context(proxy_scope, options, &block)
         end
 
@@ -12,9 +12,14 @@ module ContextAwareScope
 
         # get current context from scope chain
         def context
+          p @proxy_scope.class
           if @proxy_scope.class == ActiveRecord::NamedScope::Scope
-            @proxy_scope.context.keep_merge(@context)
+            p @context
+            recursive_context = @proxy_scope.context
+            recursive_context = recursive_context.keep_merge(@context)
+            recursive_context
           else
+            p @context
             @context
           end
         end
