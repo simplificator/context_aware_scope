@@ -12,14 +12,11 @@ module ContextAwareScope
 
         # get current context from scope chain
         def context
-          p @proxy_scope.class
           if @proxy_scope.class == ActiveRecord::NamedScope::Scope
-            p @context
             recursive_context = @proxy_scope.context
             recursive_context = recursive_context.keep_merge(@context)
             recursive_context
           else
-            p @context
             @context
           end
         end
