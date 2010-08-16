@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{context_aware_scope}
-  s.version = "0.0.3"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Simplificator", "Fabio Kuhn"]
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "test/database.yml",
      "test/models.rb",
      "test/test_helper.rb",
+     "test/units/default_scope_test.rb",
      "test/units/lambda_scope_test.rb",
      "test/units/normal_scope_test.rb",
      "test/units/readme_sample_test.rb"
@@ -37,6 +38,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/models.rb",
      "test/test_helper.rb",
+     "test/units/default_scope_test.rb",
      "test/units/lambda_scope_test.rb",
      "test/units/normal_scope_test.rb",
      "test/units/readme_sample_test.rb"
