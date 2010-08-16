@@ -14,7 +14,10 @@ class Customer < ActiveRecord::Base
 end
 
 class City < ActiveRecord::Base
-  has_many    :customers
+  default_scope :order => 'cities.name ASC', :context => {:order => 'name asc'}
+  named_scope   :basel, :conditions => {:name => 'Basel'}, :context => {:name => 'Basel'}
+
+  has_many      :customers
 end
 
 class Product < ActiveRecord::Base
@@ -64,6 +67,7 @@ def seed_models
   order2 = Order.create(:customer => customer1, :product_name => 'old lamp', :price => 5, :purchased_at => '2010-07-22')
   order3 = Order.create(:customer => customer2, :product_name => 'camel', :price => 1200, :purchased_at => '2010-07-24')
   product = Product.create(:name => 'Bracelet', :price => 324, :created_at => 1.day.ago)
+  product = Product.create(:name => 'Carpet', :price => 12, :created_at => 1.day.ago)
 end
 
 def cleanup_database
