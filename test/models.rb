@@ -21,6 +21,8 @@ class City < ActiveRecord::Base
 end
 
 class Product < ActiveRecord::Base
+  default_scope :order => 'product.id ASC'
+
   named_scope :luxurious, :conditions => ['price > ?', 100], :context => {:price => 'luxurious'}
   named_scope :recent, :conditions => ['created_at > ?', 1.week.ago], :context => {:created_at => 'brand new'}
 end

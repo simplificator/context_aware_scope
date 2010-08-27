@@ -18,7 +18,7 @@ module ContextAwareScope
             recursive_context
           else
             # add default scope context if on active_record
-            default_scoping.inject(@context){|context, scope| context.keep_merge(scope[:find][:context])}
+            default_scoping.inject(@context){|context, scope| context.keep_merge(scope[:find][:context] || {})}
           end
         end
 
